@@ -23,7 +23,7 @@ export class HeroesComponent implements OnInit{
   }
 
   getHeroes(): void {
-    this.heroservice.getHeroesSlowly()
+    this.heroservice.getHeroes()
     .then(heroes => this.heroes = heroes);
   }
 
@@ -42,6 +42,15 @@ export class HeroesComponent implements OnInit{
       .then(hero => {
         this.heroes.push(hero);
         this.selectedHero = null;
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroservice
+      .delete(hero.id)
+      .then(() => {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        if (this.selectedHero === hero) { this.selectedHero = null; }
       });
   }
 }
